@@ -8,11 +8,13 @@ interface Props {
 
 const Message: React.FC<Props> = ({ message }) => {
   return (
-    <Card style={{ marginBottom: "20px" }}>
+    <Card className="mb-4 p-3" bg="dark" text="light">
       <Card.Body>
         <Card.Title>{message.author}</Card.Title>
         <Card.Text>{message.message}</Card.Text>
-        <Card.Text>{new Date(message.datetime).toLocaleString()}</Card.Text>
+        <Card.Text className="text-end fw-bold">
+          {new Date(message.datetime).toLocaleString()}
+        </Card.Text>
       </Card.Body>
     </Card>
   );
