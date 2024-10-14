@@ -11,7 +11,6 @@ const Feed = () => {
   const [message, setMessage] = useState<string>("");
 
   const baseUrl: string = "http://146.185.154.90:8000/messages";
-  let intervalId: number;
 
   const fetchData = async (): Promise<void> => {
     try {
@@ -48,7 +47,6 @@ const Feed = () => {
     }
 
     try {
-      clearInterval(intervalId);
       const data: URLSearchParams = new URLSearchParams();
       data.set("author", author);
       data.set("message", message);
@@ -57,19 +55,19 @@ const Feed = () => {
 
       setAuthor("");
       setMessage("");
-
-      await fetchData();
-
-      intervalId = setInterval((): void => {
-        void fetchData();
-      }, 5000);
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect((): void => {
+  useEffect(() => {
     void fetchData();
+
+    const interval: number = setInterval((): void => {
+      void fetchData();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
